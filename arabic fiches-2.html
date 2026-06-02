@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiches Arabe - Oral</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --cream: #faf7f2;
+    --dark: #1a1410;
+    --gold: #c9963a;
+    --gold-light: #f0d98c;
+    --terracotta: #c85a2e;
+    --sage: #5a7a5e;
+    --blue: #2e5a7a;
+    --purple: #6b4c8a;
+    --teal: #2a7a6e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--dark);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--dark);
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+
+  .nav-btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 14px 10px;
+    border: none;
+    background: transparent;
+    color: #888;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+  }
+  .nav-btn:hover { color: var(--cream); }
+  .nav-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* PAGES */
+  .page { display: none; padding: 28px 20px 60px; max-width: 820px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* HEADER FICHE */
+  .fiche-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    gap: 12px;
+  }
+  .fiche-num {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .fiche-title-fr { font-family: 'Playfair Display', serif; font-size: 28px; line-height: 1.1; }
+  .fiche-title-ar {
+    font-size: 32px;
+    color: var(--gold);
+    text-align: right;
+    direction: rtl;
+    line-height: 1.3;
+  }
+
+  /* SCENE */
+  .scene {
+    background: var(--dark);
+    color: var(--cream);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin-bottom: 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .scene::before {
+    content: '🎭';
+    position: absolute;
+    right: 16px;
+    top: 14px;
+    font-size: 22px;
+    opacity: 0.4;
+  }
+  .scene-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .scene p { font-size: 14px; line-height: 1.7; color: #ddd; }
+  .scene strong { color: var(--gold-light); }
+
+  /* GRID 2 COL */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+  @media(max-width: 580px) { .grid2 { grid-template-columns: 1fr; } }
+
+  /* CARD */
+  .card {
+    background: white;
+    border-radius: 10px;
+    padding: 18px;
+    border-top: 4px solid var(--gold);
+  }
+  .card.blue { border-top-color: var(--blue); }
+  .card.terracotta { border-top-color: var(--terracotta); }
+  .card.sage { border-top-color: var(--sage); }
+  .card.purple { border-top-color: var(--purple); }
+  .card.teal { border-top-color: var(--teal); }
+
+  .card-title {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  /* VOCAB TABLE */
+  .vocab-row {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr 1fr;
+    gap: 4px;
+    padding: 7px 0;
+    border-bottom: 1px solid #f0ece4;
+    align-items: center;
+    font-size: 13px;
+  }
+  .vocab-row:last-child { border-bottom: none; }
+  .vocab-ar {
+    font-size: 16px;
+    direction: rtl;
+    color: var(--dark);
+    font-weight: 500;
+  }
+  .vocab-phon { color: #888; font-size: 12px; font-style: italic; }
+  .vocab-fr { font-size: 13px; }
+  .vocab-memo { font-size: 11px; color: var(--terracotta); margin-top: 1px; }
+
+  .vocab-header {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr 1fr;
+    gap: 4px;
+    padding: 0 0 6px;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 2px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #aaa;
+    font-weight: 600;
+  }
+
+  /* GRAMMAR BOX */
+  .grammar {
+    background: #fff8ee;
+    border: 1.5px solid var(--gold-light);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 18px;
+  }
+  .grammar-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .grammar p { font-size: 13.5px; line-height: 1.7; }
+  .grammar .formula {
+    background: var(--dark);
+    color: var(--gold-light);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 14px;
+    margin: 10px 0;
+    direction: rtl;
+    text-align: center;
+    letter-spacing: 0.03em;
+  }
+
+  /* QR SECTION */
+  .qr-section { margin-bottom: 18px; }
+  .qr-level {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    margin-top: 14px;
+  }
+  .level-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .level-dot.green { background: #4caf50; }
+  .level-dot.yellow { background: #f0b429; }
+  .level-dot.red { background: #e53935; }
+  .level-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; color: #666; }
+
+  .qr-item {
+    background: white;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    border-left: 3px solid #eee;
+  }
+  .qr-item.green { border-left-color: #4caf50; }
+  .qr-item.yellow { border-left-color: #f0b429; }
+  .qr-item.red { border-left-color: #e53935; }
+
+  .qr-q { font-size: 12px; color: #888; margin-bottom: 6px; }
+  .qr-q span { font-size: 10px; font-style: italic; }
+  .qr-ar { font-size: 17px; direction: rtl; color: var(--dark); margin-bottom: 4px; line-height: 1.5; }
+  .qr-phon { font-size: 11px; color: #999; font-style: italic; margin-bottom: 4px; }
+  .qr-fr { font-size: 13px; color: var(--blue); }
+  .divider { border: none; border-top: 1px dashed #ddd; margin: 4px 0 8px; }
+
+  /* AUTO-TEST */
+  .test-section {
+    background: var(--dark);
+    border-radius: 12px;
+    padding: 20px;
+    color: var(--cream);
+  }
+  .test-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .test-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+    cursor: pointer;
+  }
+  .test-q { font-size: 13.5px; flex: 1; line-height: 1.5; }
+  .test-a {
+    font-size: 12px;
+    color: var(--gold-light);
+    font-style: italic;
+    margin-top: 4px;
+    display: none;
+  }
+  .test-a.show { display: block; }
+  .reveal-btn {
+    font-size: 11px;
+    color: #666;
+    border: 1px solid #333;
+    border-radius: 4px;
+    padding: 2px 8px;
+    background: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .reveal-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* PAGE BREAK HINT */
+  .page-break {
+    text-align: center;
+    font-size: 11px;
+    color: #bbb;
+    margin: 20px 0;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .page-break::before, .page-break::after {
+    content: '— ';
+  }
+
+  .full-card { grid-column: 1 / -1; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showPage(0)">1 · البيت</button>
+  <button class="nav-btn" onclick="showPage(1)">2 · السوق</button>
+  <button class="nav-btn" onclick="showPage(2)">3 · طريقي</button>
+  <button class="nav-btn" onclick="showPage(3)">4 · ظرف المكان</button>
+  <button class="nav-btn" onclick="showPage(4)">5 · المدرسة</button>
+  <button class="nav-btn" onclick="showPage(5)">6 · العمل</button>
+</nav>
+
+<!-- ============================================================ FICHE 1 -->
+<div class="page active" id="page0">
+  <div class="fiche-header">
+    <div>
+      <div class="fiche-num">Fiche 1 · p.87</div>
+      <div class="fiche-title-fr">Les pièces de la maison</div>
+    </div>
+    <div class="fiche-title-ar">قاعاتُ البَيْتِ</div>
+  </div>
+
+  <div class="scene">
+    <div class="scene-label">La scène à visualiser</div>
+    <p>C'est l'aube. L'appel à la prière résonne. Tu te trouves dans le couloir de l'appartement. À gauche : <strong>Mohammed</strong> dans la salle de bain (bruit d'eau — il fait ses ablutions). Devant toi : <strong>Fatima</strong> murmure le Coran dans sa chambre. Dans le salon : <strong>papa</strong> est assis. <strong>Maman</strong> est dehors dans le jardin. Tout le monde se retrouve et dit <strong>"Hayyâ binâ !"</strong> — direction la mosquée.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">📍 Les lieux</div>
+      <div class="vocab-header"><span>Arabe</span><span>Phonétique</span><span>Français</span></div>
+      <div class="vocab-row"><span class="vocab-ar">بَيْت</span><span class="vocab-phon">BAYT</span><span class="vocab-fr">maison</span></div>
+      <div class="vocab-row"><span class="vocab-ar">شَقَّة</span><span class="vocab-phon">CHAQ-qa</span><span class="vocab-fr">appartement</span></div>
+      <div class="vocab-row"><span class="vocab-ar">غُرْفَة</span><span class="vocab-phon">GHUR-fa</span><span class="vocab-fr">chambre</span></div>
+      <div class="vocab-row"><span class="vocab-ar">غُرْفَة الجُلوس</span><span class="vocab-phon">ghurfa-l-julûs</span><span class="vocab-fr">salon</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مَطْبَخ</span><span class="vocab-phon">MAT-bakh</span><span class="vocab-fr">cuisine</span></div>
+      <div class="vocab-row"><span class="vocab-ar">حَمَّام</span><span class="vocab-phon">ham-MÂM</span><span class="vocab-fr">salle de bain</span></div>
+      <div class="vocab-row"><span class="vocab-ar">حَديقَة</span><span class="vocab-phon">ha-DÎ-qa</span><span class="vocab-fr">jardin</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مَسْجِد</span><span class="vocab-phon">MAS-jid</span><span class="vocab-fr">mosquée</span></div>
+      <div class="vocab-row"><span class="vocab-ar">حَيّ</span><span class="vocab-phon">HAYY</span><span class="vocab-fr">quartier</span></div>
+    </div>
+    <div class="card blue">
+      <div class="card-title" style="color:var(--blue)">👤 Personnes & Pronoms</div>
+      <div class="vocab-header"><span>Arabe</span><span>Phonétique</span><span>Français</span></div>
+      <div class="vocab-row"><span class="vocab-ar">هُوَ</span><span class="vocab-phon">HU-wa</span><span class="vocab-fr">il</span></div>
+      <div class="vocab-row"><span class="vocab-ar">هِيَ</span><span class="vocab-phon">HI-ya</span><span class="vocab-fr">elle</span></div>
+      <div class="vocab-row"><span class="vocab-ar">أنا</span><span class="vocab-phon">A-na</span><span class="vocab-fr">je</span></div>
+      <div class="vocab-row"><span class="vocab-ar">أبي</span><span class="vocab-phon">a-BÎ</span><span class="vocab-fr">mon père</span></div>
+      <div class="vocab-row"><span class="vocab-ar">أُمِّي</span><span class="vocab-phon">um-MÎ</span><span class="vocab-fr">ma mère</span></div>
+      <div class="vocab-row"><span class="vocab-ar">أخي</span><span class="vocab-phon">a-KHÎ</span><span class="vocab-fr">mon frère</span></div>
+      <div class="vocab-row"><span class="vocab-ar">أُخْتي</span><span class="vocab-phon">ukh-TÎ</span><span class="vocab-fr">ma sœur</span></div>
+      <div class="vocab-row"><span class="vocab-ar">عَمِّي</span><span class="vocab-phon">'am-MÎ</span><span class="vocab-fr">mon oncle</span></div>
+      <div class="vocab-row"><span class="vocab-ar">هَيَّا بِنا</span><span class="vocab-phon">hay-YÂ bi-NÂ</span><span class="vocab-fr">allons-y !</span></div>
+    </div>
+  </div>
+
+  <div class="grammar">
+    <div class="grammar-label">💡 Règle clé — La structure de base</div>
+    <p>Pour dire <strong>où quelqu'un se trouve</strong>, la structure est toujours :</p>
+    <div class="formula">أيْنَ + nom ? → هُوَ / هِيَ + في + lieu</div>
+    <p><strong>هُوَ</strong> (huwa) pour un homme · <strong>هِيَ</strong> (hiya) pour une femme · <strong>في</strong> (fî) = dans</p>
+  </div>
+
+  <div class="page-break">Questions / Réponses</div>
+
+  <div class="qr-section">
+    <div class="qr-level"><div class="level-dot green"></div><div class="level-label">Niveau facile 🟢</div></div>
+
+    <div class="qr-item green">
+      <div class="qr-q">أيْنَ مُحَمَّد ؟ <span>— Où est Mohammed ?</span></div>
+      <div class="qr-ar">هُوَ في الحَمَّام، يَتَوَضَّأ</div>
+      <div class="qr-phon">Huwa fil ham-MÂM, ya-ta-WAD-da'</div>
+      <div class="qr-fr">Il est dans la salle de bain, il fait ses ablutions</div>
+    </div>
+
+    <div class="qr-item green">
+      <div class="qr-q">أيْنَ فاطِمَة ؟ <span>— Où est Fatima ?</span></div>
+      <div class="qr-ar">هِيَ في الغُرْفَة، تَقْرَأ القُرْآن</div>
+      <div class="qr-phon">Hiya fil GHUR-fa, TAQ-ra' il-Qur-ÂN</div>
+      <div class="qr-fr">Elle est dans la chambre, elle lit le Coran</div>
+    </div>
+
+    <div class="qr-item green">
+      <div class="qr-q">أيْنَ أبوكَ ؟ <span>— Où est ton père ?</span></div>
+      <div class="qr-ar">هُوَ في غُرْفَة الجُلوس</div>
+      <div class="qr-phon">Huwa fî ghurfat il-ju-LÛS</div>
+      <div class="qr-fr">Il est dans le salon</div>
+    </div>
+
+    <div class="qr-level"><div class="level-dot yellow"></div><div class="level-label">Niveau moyen 🟡</div></div>
+
+    <div class="qr-item yellow">
+      <div class="qr-q">كَيْفَ بَيْتُك ؟ <span>— Comment est ta maison ?</span></div>
+      <div class="qr-ar">أنا أسْكُن في شَقَّة في حَيّ المَطار. في الشَّقَّة خَمْس قاعات</div>
+      <div class="qr-phon">Ana AS-kun fî CHAQ-qa fî hayy il-ma-TÂR. Fich-chaqqa KHAMS qâ'ât</div>
+      <div class="qr-fr">J'habite dans un appartement dans le quartier Al-Mattar. Il y a 5 pièces.</div>
+    </div>
+
+    <div class="qr-item yellow">
+      <div class="qr-q">مَن هو هِشام ؟ <span>— Qui est Hicham ?</span></div>
+      <div class="qr-ar">هُوَ عَمِّي. هُوَ تاجِر وَمُتَزَوِّج وَلَهُ بِنْت صَغيرَة</div>
+      <div class="qr-phon">Huwa 'am-MÎ. Huwa tâ-JIR wa muta-ZAW-wij wa lahu bint sa-GHÎRA</div>
+      <div class="qr-fr">C'est mon oncle. Il est commerçant, marié et a une petite fille.</div>
+    </div>
+
+    <div class="qr-level"><div class="level-dot red"></div><div class="level-label">Niveau avancé 🔴</div></div>
+
+    <div class="qr-item red">
+      <div class="qr-q">صِفْ شَقَّتَك <span>— Décris ton appartement</span></div>
+      <div class="qr-ar">أنا أسْكُن في شَقَّة في حَيّ المَطار. في الشَّقَّة خَمْس قاعات: غُرْفَة، مَطْبَخ، حَمَّام، غُرْفَة الجُلوس، وَحَديقَة</div>
+      <div class="qr-phon">Ana askun fî chaqqa fî hayy il-matâr. Fich-chaqqa khams qâ'ât: ghurfa, matbakh, hammâm, ghurfat il-julûs, wa hadîqa</div>
+      <div class="qr-fr">J'habite un appartement dans le quartier Al-Mattar. Il y a 5 pièces : chambre, cuisine, salle de bain, salon et jardin.</div>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <div class="test-label">🔁 Auto-test — Cache tes fiches et réponds à voix haute</div>
+    <div class="test-item">
+      <div class="test-q">1. Comment dit-on "jardin" en arabe ?<div class="test-a" id="t1a">حَديقَة — ha-DÎ-qa</div></div>
+      <button class="reveal-btn" onclick="reveal('t1a',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">2. "Elle est dans la cuisine" ?<div class="test-a" id="t1b">هِيَ في المَطْبَخ — Hiya fil MAT-bakh</div></div>
+      <button class="reveal-btn" onclick="reveal('t1b',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">3. Que fait Mohammed dans la salle de bain ?<div class="test-a" id="t1c">يَتَوَضَّأ — ya-ta-WAD-da' (il fait ses ablutions)</div></div>
+      <button class="reveal-btn" onclick="reveal('t1c',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">4. Combien de pièces dans l'appartement ?<div class="test-a" id="t1d">خَمْس قاعات — KHAMS qâ'ât (5 pièces)</div></div>
+      <button class="reveal-btn" onclick="reveal('t1d',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">5. Que fait Fatima ?<div class="test-a" id="t1e">تَقْرَأ القُرْآن — TAQ-ra' il-Qur-ÂN (elle lit le Coran)</div></div>
+      <button class="reveal-btn" onclick="reveal('t1e',this)">Voir</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ FICHE 2 -->
+<div class="page" id="page1">
+  <div class="fiche-header">
+    <div>
+      <div class="fiche-num">Fiche 2 · p.88</div>
+      <div class="fiche-title-fr">Le marché / La librairie</div>
+    </div>
+    <div class="fiche-title-ar">السُّوق</div>
+  </div>
+
+  <div class="scene">
+    <div class="scene-label">La scène à visualiser</div>
+    <p><strong>Ahmed</strong> entre dans une librairie. Le vendeur s'appelle <strong>Mustapha</strong> — il est sympa et souriant. Ahmed veut un <strong>livre d'histoire</strong>. Mustapha lui en propose un : <em>"Il est excellent et très utile !"</em>. Ahmed remercie. Mustapha demande s'il veut autre chose. <strong>Ahmed dit non</strong> et repart avec son livre.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card terracotta">
+      <div class="card-title" style="color:var(--terracotta)">🛍 Vocabulaire clé</div>
+      <div class="vocab-header"><span>Arabe</span><span>Phonétique</span><span>Français</span></div>
+      <div class="vocab-row"><span class="vocab-ar">سُوق</span><span class="vocab-phon">SÛQ</span><span class="vocab-fr">marché</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مَكْتَبَة</span><span class="vocab-phon">mak-TA-ba</span><span class="vocab-fr">librairie</span></div>
+      <div class="vocab-row"><span class="vocab-ar">بائِع</span><span class="vocab-phon">BÂ-'i'</span><span class="vocab-fr">vendeur</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مُشْتَري</span><span class="vocab-phon">mush-TA-rî</span><span class="vocab-fr">acheteur</span></div>
+      <div class="vocab-row"><span class="vocab-ar">كِتاب</span><span class="vocab-phon">ki-TÂB</span><span class="vocab-fr">livre</span></div>
+      <div class="vocab-row"><span class="vocab-ar">تاريخ</span><span class="vocab-phon">tâ-RÎKH</span><span class="vocab-fr">histoire</span></div>
+      <div class="vocab-row"><span class="vocab-ar">أُريدُ</span><span class="vocab-phon">u-RÎ-du</span><span class="vocab-fr">je veux</span></div>
+      <div class="vocab-row"><span class="vocab-ar">تَفَضَّلْ</span><span class="vocab-phon">ta-FAD-dal</span><span class="vocab-fr">voici / je vous en prie</span></div>
+      <div class="vocab-row"><span class="vocab-ar">شَيْء</span><span class="vocab-phon">SHAY'</span><span class="vocab-fr">chose</span></div>
+    </div>
+    <div class="card sage">
+      <div class="card-title" style="color:var(--sage)">💬 Expressions utiles</div>
+      <div class="vocab-header"><span>Arabe</span><span>Phonétique</span><span>Français</span></div>
+      <div class="vocab-row"><span class="vocab-ar">أهْلاً وَسَهْلاً</span><span class="vocab-phon">ah-lan wa-SAH-lan</span><span class="vocab-fr">bienvenue</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مِن فَضْلِك</span><span class="vocab-phon">min FAD-lik</span><span class="vocab-fr">s'il vous plaît</span></div>
+      <div class="vocab-row"><span class="vocab-ar">أيُّ كِتاب</span><span class="vocab-phon">AY-yu ki-TÂB</span><span class="vocab-fr">quel livre ?</span></div>
+      <div class="vocab-row"><span class="vocab-ar">رائِع</span><span class="vocab-phon">RÂ-'i'</span><span class="vocab-fr">excellent</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مُفيد جِدَّاً</span><span class="vocab-phon">mu-FÎD jid-DÂN</span><span class="vocab-fr">très utile</span></div>
+      <div class="vocab-row"><span class="vocab-ar">شُكْراً جَزيلاً</span><span class="vocab-phon">shuk-RÂN ja-ZÎ-lan</span><span class="vocab-fr">merci beaucoup</span></div>
+      <div class="vocab-row"><span class="vocab-ar">عِنْدَك</span><span class="vocab-phon">'in-DA-ka</span><span class="vocab-fr">as-tu ? / avez-vous ?</span></div>
+      <div class="vocab-row"><span class="vocab-ar">نَعَم</span><span class="vocab-phon">NA-'am</span><span class="vocab-fr">oui</span></div>
+      <div class="vocab-row"><span class="vocab-ar">لا، وَبارَكَ اللهُ فيك</span><span class="vocab-phon">lâ, wa-bâ-ra-kal-LÂ-hu fîk</span><span class="vocab-fr">non, que Dieu vous bénisse</span></div>
+    </div>
+  </div>
+
+  <div class="grammar">
+    <div class="grammar-label">💡 Règle clé — Demander et répondre</div>
+    <p>Les deux structures essentielles de ce texte :</p>
+    <div class="formula">أُريدُ + كِتابَ + التَّاريخ = Je veux le livre d'histoire</div>
+    <p style="margin-top:8px"><strong>هَل عِنْدَك ... ؟</strong> (Hal 'indaka...?) = Est-ce que tu as... ? → <strong>نَعَم، عِنْدي</strong> (oui, j'ai) / <strong>لا</strong> (non)</p>
+  </div>
+
+  <div class="qr-section">
+    <div class="qr-level"><div class="level-dot green"></div><div class="level-label">Niveau facile 🟢</div></div>
+
+    <div class="qr-item green">
+      <div class="qr-q">مَن دَخَلَ المَكْتَبَة ؟ <span>— Qui est entré dans la librairie ?</span></div>
+      <div class="qr-ar">أحْمَد، الطَّالِب</div>
+      <div class="qr-phon">AH-mad, it-TÂ-lib</div>
+      <div class="qr-fr">Ahmed, l'étudiant</div>
+    </div>
+
+    <div class="qr-item green">
+      <div class="qr-q">مَن هو البائِع ؟ <span>— Qui est le vendeur ?</span></div>
+      <div class="qr-ar">البائِع اسْمُهُ مُصْطَفى، هُوَ رَجُل لَطيف وَمُبْتَسِم</div>
+      <div class="qr-phon">il-BÂ-'i' is-mu-hu MUS-ta-fâ, huwa ra-JUL la-TÎF wa mub-ta-SIM</div>
+      <div class="qr-fr">Le vendeur s'appelle Mustapha, c'est un homme gentil et souriant</div>
+    </div>
+
+    <div class="qr-level"><div class="level-dot yellow"></div><div class="level-label">Niveau moyen 🟡</div></div>
+
+    <div class="qr-item yellow">
+      <div class="qr-q">ماذا يُريدُ أحْمَد ؟ <span>— Que veut Ahmed ?</span></div>
+      <div class="qr-ar">أُريدُ كِتاباً مِنْ فَضْلِك. أنا أُريدُ كِتابَ التَّاريخ</div>
+      <div class="qr-phon">u-RÎ-du ki-TÂ-ban min FAD-lik. Ana u-RÎ-du ki-tâ-bat-tâ-RÎKH</div>
+      <div class="qr-fr">Je veux un livre s'il vous plaît. Je veux le livre d'histoire.</div>
+    </div>
+
+    <div class="qr-item yellow">
+      <div class="qr-q">كَيْفَ الكِتاب ؟ <span>— Comment est le livre ?</span></div>
+      <div class="qr-ar">هَذا كِتابٌ رائِعٌ ومُفيدٌ جِدَّاً</div>
+      <div class="qr-phon">hâ-dhâ ki-TÂ-bun RÂ-'i'un wa mu-FÎ-dun jid-DÂN</div>
+      <div class="qr-fr">Ce livre est excellent et très utile</div>
+    </div>
+
+    <div class="qr-level"><div class="level-dot red"></div><div class="level-label">Niveau avancé 🔴</div></div>
+
+    <div class="qr-item red">
+      <div class="qr-q">اِحْكِ القِصَّة <span>— Raconte l'histoire</span></div>
+      <div class="qr-ar">دَخَلَ أحْمَد المَكْتَبَة. البائِع اسْمُهُ مُصْطَفى. أحْمَد أراد كِتابَ التَّاريخ. البائِع قال: هَذا كِتاب رائِع. شَكَرَ أحْمَد وَخَرَج</div>
+      <div class="qr-phon">da-KHA-la AH-mad il-mak-TA-ba. il-BÂ-'i' is-mu-hu MUS-ta-fâ. AH-mad a-RÂ-da ki-tâ-bat-tâ-RÎKH. il-BÂ-'i' qâl: hâ-dhâ ki-TÂB RÂ-'i'. sha-ka-ra AH-mad wa kha-RAJ</div>
+      <div class="qr-fr">Ahmed entra dans la librairie. Le vendeur s'appelle Mustapha. Ahmed voulait le livre d'histoire. Le vendeur dit : c'est un excellent livre. Ahmed remercia et sortit.</div>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <div class="test-label">🔁 Auto-test</div>
+    <div class="test-item">
+      <div class="test-q">1. Comment dit-on "librairie" ?<div class="test-a" id="t2a">مَكْتَبَة — mak-TA-ba</div></div>
+      <button class="reveal-btn" onclick="reveal('t2a',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">2. Comment dit-on "je veux un livre" ?<div class="test-a" id="t2b">أُريدُ كِتاباً — u-RÎ-du ki-TÂ-ban</div></div>
+      <button class="reveal-btn" onclick="reveal('t2b',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">3. Comment répondre "non merci" poliment ?<div class="test-a" id="t2c">لا، وَبارَكَ اللهُ فيك — lâ, wa bârakal-LÂhu fîk</div></div>
+      <button class="reveal-btn" onclick="reveal('t2c',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">4. Qui est Mustapha ?<div class="test-a" id="t2d">البائِع — il-BÂ-'i' (le vendeur), رَجُل لَطيف (homme gentil)</div></div>
+      <button class="reveal-btn" onclick="reveal('t2d',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">5. Que signifie "تَفَضَّلْ" ?<div class="test-a" id="t2e">ta-FAD-dal = voici / je vous en prie (formule de politesse)</div></div>
+      <button class="reveal-btn" onclick="reveal('t2e',this)">Voir</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ FICHE 3 -->
+<div class="page" id="page2">
+  <div class="fiche-header">
+    <div>
+      <div class="fiche-num">Fiche 3 · p.89</div>
+      <div class="fiche-title-fr">Mon chemin / Les directions</div>
+    </div>
+    <div class="fiche-title-ar">طَريقي</div>
+  </div>
+
+  <div class="scene">
+    <div class="scene-label">La scène à visualiser</div>
+    <p>Un étranger s'arrête dans la rue et dit <strong>"As-salâmu 'alaykum"</strong>. Il cherche une mosquée. L'habitant répond : <em>"Il y en a beaucoup, Dieu merci !"</em> L'étranger cherche la <strong>grande mosquée</strong>. L'habitant lui dit : <em>"Va vers le marché, tourne à droite — la mosquée est en face du jardin."</em> L'étranger demande s'il y a un restaurant proche. <strong>Oui, à côté de la mosquée.</strong> L'étranger est <strong>voyageur</strong> venu de Chine. L'habitant lui souhaite la bienvenue.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card purple">
+      <div class="card-title" style="color:var(--purple)">🗺 Vocabulaire des directions</div>
+      <div class="vocab-header"><span>Arabe</span><span>Phonétique</span><span>Français</span></div>
+      <div class="vocab-row"><span class="vocab-ar">طَريق</span><span class="vocab-phon">ta-RÎQ</span><span class="vocab-fr">chemin / rue</span></div>
+      <div class="vocab-row"><span class="vocab-ar">هُناك</span><span class="vocab-phon">hu-NÂK</span><span class="vocab-fr">là-bas / il y a</span></div>
+      <div class="vocab-row"><span class="vocab-ar">عَلى اليَمين</span><span class="vocab-phon">'ala-l-ya-MÎN</span><span class="vocab-fr">à droite</span></div>
+      <div class="vocab-row"><span class="vocab-ar">عَلى اليَسار</span><span class="vocab-phon">'ala-l-ya-SÂR</span><span class="vocab-fr">à gauche</span></div>
+      <div class="vocab-row"><span class="vocab-ar">بِجانِب</span><span class="vocab-phon">bi-JÂ-nib</span><span class="vocab-fr">à côté de</span></div>
+      <div class="vocab-row"><span class="vocab-ar">أمام</span><span class="vocab-phon">a-MÂM</span><span class="vocab-fr">en face de / devant</span></div>
+      <div class="vocab-row"><span class="vocab-ar">اِذْهَب</span><span class="vocab-phon">idh-HAB</span><span class="vocab-fr">va ! (impératif)</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مَطْعَم</span><span class="vocab-phon">MAT-'am</span><span class="vocab-fr">restaurant</span></div>
+      <div class="vocab-row"><span class="vocab-ar">قَريب</span><span class="vocab-phon">qa-RÎB</span><span class="vocab-fr">proche</span></div>
+    </div>
+    <div class="card teal">
+      <div class="card-title" style="color:var(--teal)">✈️ Voyageur & Formules</div>
+      <div class="vocab-header"><span>Arabe</span><span>Phonétique</span><span>Français</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مُسافِر</span><span class="vocab-phon">mu-SÂ-fir</span><span class="vocab-fr">voyageur</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مُقيم</span><span class="vocab-phon">mu-QÎM</span><span class="vocab-fr">résident</span></div>
+      <div class="vocab-row"><span class="vocab-ar">جائِع</span><span class="vocab-phon">JÂ-'i'</span><span class="vocab-fr">affamé</span></div>
+      <div class="vocab-row"><span class="vocab-ar">رائِع</span><span class="vocab-phon">RÂ-'i'</span><span class="vocab-fr">excellent</span></div>
+      <div class="vocab-row"><span class="vocab-ar">عَفْواً</span><span class="vocab-phon">'AF-wan</span><span class="vocab-fr">excusez-moi / pardon</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مَرْحَباً بِك</span><span class="vocab-phon">mar-HA-ban bik</span><span class="vocab-fr">bienvenue !</span></div>
+      <div class="vocab-row"><span class="vocab-ar">الحَمْدُ لِلّه</span><span class="vocab-phon">al-HAM-du li-LLÂh</span><span class="vocab-fr">Dieu merci</span></div>
+      <div class="vocab-row"><span class="vocab-ar">الصِّين</span><span class="vocab-phon">is-SÎN</span><span class="vocab-fr">la Chine</span></div>
+      <div class="vocab-row"><span class="vocab-ar">أبْحَث عَن</span><span class="vocab-phon">ab-HA-thu 'an</span><span class="vocab-fr">je cherche</span></div>
+    </div>
+  </div>
+
+  <div class="grammar">
+    <div class="grammar-label">💡 Règle clé — Donner une direction</div>
+    <p>Pour indiquer un chemin, on utilise l'impératif <strong>اِذْهَب</strong> (idh-hab = va !) suivi de la direction :</p>
+    <div class="formula">اِذْهَب إلى السُّوق عَلى اليَمين = Va vers le marché, à droite</div>
+    <p style="margin-top:8px">Pour dire qu'il y a quelque chose : <strong>هُناك + chose</strong> (hunâk = il y a là-bas)</p>
+  </div>
+
+  <div class="qr-section">
+    <div class="qr-level"><div class="level-dot green"></div><div class="level-label">Niveau facile 🟢</div></div>
+
+    <div class="qr-item green">
+      <div class="qr-q">هَل هُناك مَسْجِد قَريب ؟ <span>— Y a-t-il une mosquée proche ?</span></div>
+      <div class="qr-ar">نَعَم، هُناك مَساجِد كَثيرَة، الحَمْدُ لِلّه</div>
+      <div class="qr-phon">NA-'am, hu-NÂK ma-SÂ-jid ka-THÎ-ra, al-HAM-du li-LLÂh</div>
+      <div class="qr-fr">Oui, il y a beaucoup de mosquées, Dieu merci</div>
+    </div>
+
+    <div class="qr-item green">
+      <div class="qr-q">هَل أنْتَ مُسافِر ؟ <span>— Es-tu un voyageur ?</span></div>
+      <div class="qr-ar">نَعَم، أنا مُسافِر. أنا مِن الصِّين</div>
+      <div class="qr-phon">NA-'am, ana mu-SÂ-fir. Ana min is-SÎN</div>
+      <div class="qr-fr">Oui, je suis un voyageur. Je viens de Chine.</div>
+    </div>
+
+    <div class="qr-level"><div class="level-dot yellow"></div><div class="level-label">Niveau moyen 🟡</div></div>
+
+    <div class="qr-item yellow">
+      <div class="qr-q">أيْنَ المَسْجِد الكَبير ؟ <span>— Où est la grande mosquée ?</span></div>
+      <div class="qr-ar">اِذْهَب إلى السُّوق عَلى اليَمين، وَالمَسْجِد أمامَ الحَديقَة</div>
+      <div class="qr-phon">idh-HAB il-as-SÛQ 'ala-l-ya-MÎN, wal-MAS-jid a-MÂ-mal-ha-DÎ-qa</div>
+      <div class="qr-fr">Va vers le marché à droite, et la mosquée est en face du jardin</div>
+    </div>
+
+    <div class="qr-item yellow">
+      <div class="qr-q">هَل هُناك مَطْعَم قَريب مِن المَسْجِد ؟ <span>— Y a-t-il un restaurant proche ?</span></div>
+      <div class="qr-ar">نَعَم، المَطْعَم بِجانِب المَسْجِد وَهُوَ رائِع جِدَّاً</div>
+      <div class="qr-phon">NA-'am, il-MAT-'am bi-JÂ-nib il-MAS-jid wa huwa RÂ-'i' jid-DÂN</div>
+      <div class="qr-fr">Oui, le restaurant est à côté de la mosquée et il est très bien</div>
+    </div>
+
+    <div class="qr-level"><div class="level-dot red"></div><div class="level-label">Niveau avancé 🔴</div></div>
+
+    <div class="qr-item red">
+      <div class="qr-q">اِحْكِ القِصَّة <span>— Raconte la scène</span></div>
+      <div class="qr-ar">رَجُل سَأَل عَن المَسْجِد الكَبير. ذَهَب إلى السُّوق عَلى اليَمين. المَسْجِد أمامَ الحَديقَة. هُناك مَطْعَم بِجانِب المَسْجِد. الرَّجُل مُسافِر مِن الصِّين</div>
+      <div class="qr-phon">ra-JUL sa-'a-la 'an il-MAS-jid il-ka-BÎR. dha-ha-ba il-as-SÛQ 'ala-l-ya-MÎN. il-MAS-jid a-MÂ-mal-ha-DÎ-qa. hu-NÂK MAT-'am bi-JÂ-nib il-MAS-jid. ir-ra-JUL mu-SÂ-fir min is-SÎN</div>
+      <div class="qr-fr">Un homme demanda où était la grande mosquée. Il alla vers le marché à droite. La mosquée est en face du jardin. Il y a un restaurant à côté de la mosquée. L'homme est un voyageur venu de Chine.</div>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <div class="test-label">🔁 Auto-test</div>
+    <div class="test-item">
+      <div class="test-q">1. Comment dit-on "à droite" ?<div class="test-a" id="t3a">عَلى اليَمين — 'ala-l-ya-MÎN</div></div>
+      <button class="reveal-btn" onclick="reveal('t3a',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">2. Comment dire "va vers le marché" ?<div class="test-a" id="t3b">اِذْهَب إلى السُّوق — idh-HAB il-as-SÛQ</div></div>
+      <button class="reveal-btn" onclick="reveal('t3b',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">3. D'où vient le voyageur ?<div class="test-a" id="t3c">مِن الصِّين — min is-SÎN (de Chine)</div></div>
+      <button class="reveal-btn" onclick="reveal('t3c',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">4. Où est la mosquée par rapport au jardin ?<div class="test-a" id="t3d">أمامَ الحَديقَة — a-MÂ-mal-ha-DÎ-qa (en face du jardin)</div></div>
+      <button class="reveal-btn" onclick="reveal('t3d',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">5. Comment dire "bienvenue" ?<div class="test-a" id="t3e">مَرْحَباً بِك — mar-HA-ban bik</div></div>
+      <button class="reveal-btn" onclick="reveal('t3e',this)">Voir</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ FICHE 4 -->
+<div class="page" id="page3">
+  <div class="fiche-header">
+    <div>
+      <div class="fiche-num">Fiche 4 · p.90</div>
+      <div class="fiche-title-fr">Les prépositions de lieu</div>
+    </div>
+    <div class="fiche-title-ar">ظَرْفُ المَكانِ</div>
+  </div>
+
+  <div class="scene">
+    <div class="scene-label">Ce que tu dois savoir</div>
+    <p>Cette fiche est une <strong>leçon de grammaire</strong>. Elle explique les mots qui indiquent <strong>où se trouve quelque chose</strong>. Pas de personnages, mais 8 prépositions essentielles illustrées par des exemples. <strong>Retiens-les comme une liste !</strong> Ces mots reviennent dans TOUS les autres textes.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card full-card">
+      <div class="card-title">📍 Les 8 prépositions de lieu — à apprendre par cœur</div>
+      <div class="vocab-header"><span>Arabe</span><span>Phonétique</span><span>Français</span></div>
+      <div class="vocab-row"><span class="vocab-ar">فَوْق</span><span class="vocab-phon">FAWQ</span><span class="vocab-fr">au-dessus de / sur</span></div>
+      <div class="vocab-row"><span class="vocab-ar">تَحْت</span><span class="vocab-phon">TAHT</span><span class="vocab-fr">sous / en-dessous de</span></div>
+      <div class="vocab-row"><span class="vocab-ar">أمام</span><span class="vocab-phon">a-MÂM</span><span class="vocab-fr">devant / en face de</span></div>
+      <div class="vocab-row"><span class="vocab-ar">خَلْف</span><span class="vocab-phon">KHALF</span><span class="vocab-fr">derrière</span></div>
+      <div class="vocab-row"><span class="vocab-ar">عَلى اليَمين</span><span class="vocab-phon">'ala-l-ya-MÎN</span><span class="vocab-fr">à droite</span></div>
+      <div class="vocab-row"><span class="vocab-ar">عَلى اليَسار</span><span class="vocab-phon">'ala-l-ya-SÂR</span><span class="vocab-fr">à gauche</span></div>
+      <div class="vocab-row"><span class="vocab-ar">بَيْن</span><span class="vocab-phon">BAYN</span><span class="vocab-fr">entre</span></div>
+      <div class="vocab-row"><span class="vocab-ar">حَوْل</span><span class="vocab-phon">HAWL</span><span class="vocab-fr">autour de</span></div>
+    </div>
+  </div>
+
+  <div class="grammar">
+    <div class="grammar-label">💡 Définition + Astuce</div>
+    <p><strong>ظَرْف المَكان</strong> (zarf al-makân) = mot invariable qui indique un lieu. Il répond à la question <strong>أيْن ؟</strong> (où ?). Il se place directement après le verbe ou le sujet, suivi du nom du repère.</p>
+    <div class="formula">القَلَم فَوْق الكِتاب = Le stylo est sur le livre</div>
+    <p style="margin-top:8px">Structure : <strong>sujet + ظرف المكان + repère</strong></p>
+  </div>
+
+  <div class="qr-section">
+    <div class="qr-level"><div class="level-dot green"></div><div class="level-label">Exemples du texte — à mémoriser 🟢</div></div>
+
+    <div class="qr-item green">
+      <div class="qr-ar">القَلَم فَوْق الكِتاب</div>
+      <div class="qr-phon">il-qa-LAM FAWQ il-ki-TÂB</div>
+      <div class="qr-fr">Le stylo est sur le livre</div>
+    </div>
+
+    <div class="qr-item green">
+      <div class="qr-ar">الهاتِف تَحْت المَكْتَب</div>
+      <div class="qr-phon">il-HÂ-tif TAHT il-mak-TAB</div>
+      <div class="qr-fr">Le téléphone est sous le bureau</div>
+    </div>
+
+    <div class="qr-item green">
+      <div class="qr-ar">الطَّالِب أمام الأُسْتاذ</div>
+      <div class="qr-phon">it-TÂ-lib a-MÂM il-us-TÂDh</div>
+      <div class="qr-fr">L'étudiant est devant le professeur</div>
+    </div>
+
+    <div class="qr-item green">
+      <div class="qr-ar">السَّبُّورَة خَلْف المُعَلِّم</div>
+      <div class="qr-phon">is-sab-BÛ-ra KHALF il-mu-'AL-lim</div>
+      <div class="qr-fr">Le tableau est derrière l'enseignant</div>
+    </div>
+
+    <div class="qr-item green">
+      <div class="qr-ar">بَيْتي بَيْن الدُّكَّان وَالمَطْعَم</div>
+      <div class="qr-phon">BAY-ti BAYN id-duk-KÂN wal-MAT-'am</div>
+      <div class="qr-fr">Ma maison est entre la boutique et le restaurant</div>
+    </div>
+
+    <div class="qr-item green">
+      <div class="qr-ar">السُّوق عَلى اليَمين وَالمَكْتَبَة عَلى اليَسار</div>
+      <div class="qr-phon">is-SÛQ 'ala-l-ya-MÎN wal-mak-TA-ba 'ala-l-ya-SÂR</div>
+      <div class="qr-fr">Le marché est à droite et la librairie à gauche</div>
+    </div>
+
+    <div class="qr-item green">
+      <div class="qr-ar">يَطوف الحُجَّاج حَوْل الكَعْبَة</div>
+      <div class="qr-phon">ya-TÛF il-huj-JÂJ HAWL il-KA'-ba</div>
+      <div class="qr-fr">Les pèlerins tournent autour de la Kaaba</div>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <div class="test-label">🔁 Auto-test — Traduis en arabe</div>
+    <div class="test-item">
+      <div class="test-q">1. "Le stylo est sur le livre"<div class="test-a" id="t4a">القَلَم فَوْق الكِتاب — il-qa-LAM FAWQ il-ki-TÂB</div></div>
+      <button class="reveal-btn" onclick="reveal('t4a',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">2. "Le marché est à droite"<div class="test-a" id="t4b">السُّوق عَلى اليَمين — is-SÛQ 'ala-l-ya-MÎN</div></div>
+      <button class="reveal-btn" onclick="reveal('t4b',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">3. Comment dit-on "entre" ?<div class="test-a" id="t4c">بَيْن — BAYN</div></div>
+      <button class="reveal-btn" onclick="reveal('t4c',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">4. Comment dit-on "autour de" ?<div class="test-a" id="t4d">حَوْل — HAWL</div></div>
+      <button class="reveal-btn" onclick="reveal('t4d',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">5. "L'étudiant est devant le professeur"<div class="test-a" id="t4e">الطَّالِب أمام الأُسْتاذ — it-TÂ-lib a-MÂM il-us-TÂDh</div></div>
+      <button class="reveal-btn" onclick="reveal('t4e',this)">Voir</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ FICHE 5 -->
+<div class="page" id="page4">
+  <div class="fiche-header">
+    <div>
+      <div class="fiche-num">Fiche 5 · p.91-92</div>
+      <div class="fiche-title-fr">L'école</div>
+    </div>
+    <div class="fiche-title-ar">المَدْرَسَة</div>
+  </div>
+
+  <div class="scene">
+    <div class="scene-label">La scène à visualiser</div>
+    <p>Les vacances sont finies. <strong>Khalima</strong> va faire du shopping avec son père puis prépare ses affaires scolaires (cahier, stylo, gomme, crayon de couleur). Le lendemain, elle se réveille tôt, prend le bus et va à l'école. Elle rencontre le <strong>directeur</strong> dans son bureau. Il lui explique : l'école va du <strong>dimanche ou samedi</strong> de 10h à 13h30. On y enseigne <strong>l'arabe, le Coran et les sciences islamiques</strong>. Les examens ont lieu <strong>avant Ramadan</strong>. Khalima repart à la maison toute <strong>joyeuse</strong>.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">📚 Vocabulaire scolaire</div>
+      <div class="vocab-header"><span>Arabe</span><span>Phonétique</span><span>Français</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مَدْرَسَة</span><span class="vocab-phon">mad-RA-sa</span><span class="vocab-fr">école</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مُدير</span><span class="vocab-phon">mu-DÎR</span><span class="vocab-fr">directeur</span></div>
+      <div class="vocab-row"><span class="vocab-ar">دِرَاسَة</span><span class="vocab-phon">di-RÂ-sa</span><span class="vocab-fr">études</span></div>
+      <div class="vocab-row"><span class="vocab-ar">اِخْتِبارات</span><span class="vocab-phon">ikh-ti-bâ-RÂT</span><span class="vocab-fr">examens</span></div>
+      <div class="vocab-row"><span class="vocab-ar">حافِلَة</span><span class="vocab-phon">hâ-FI-la</span><span class="vocab-fr">bus</span></div>
+      <div class="vocab-row"><span class="vocab-ar">حَقيبَة</span><span class="vocab-phon">ha-QÎ-ba</span><span class="vocab-fr">cartable / sac</span></div>
+      <div class="vocab-row"><span class="vocab-ar">أوْراق</span><span class="vocab-phon">aw-RÂQ</span><span class="vocab-fr">feuilles / papiers</span></div>
+      <div class="vocab-row"><span class="vocab-ar">رَصاص</span><span class="vocab-phon">ra-SÂS</span><span class="vocab-fr">crayon</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مِسْطَرَة</span><span class="vocab-phon">mis-TA-ra</span><span class="vocab-fr">règle</span></div>
+    </div>
+    <div class="card blue">
+      <div class="card-title" style="color:var(--blue)">🕐 Horaires & Matières</div>
+      <div class="vocab-header"><span>Arabe</span><span>Phonétique</span><span>Français</span></div>
+      <div class="vocab-row"><span class="vocab-ar">السَّبْت</span><span class="vocab-phon">is-SABT</span><span class="vocab-fr">samedi</span></div>
+      <div class="vocab-row"><span class="vocab-ar">الأحَد</span><span class="vocab-phon">il-A-had</span><span class="vocab-fr">dimanche</span></div>
+      <div class="vocab-row"><span class="vocab-ar">الواحِدَة</span><span class="vocab-phon">il-WÂ-hi-da</span><span class="vocab-fr">une heure</span></div>
+      <div class="vocab-row"><span class="vocab-ar">النِّصْف</span><span class="vocab-phon">in-NISF</span><span class="vocab-fr">la demie</span></div>
+      <div class="vocab-row"><span class="vocab-ar">اللُّغَة العَرَبِيَّة</span><span class="vocab-phon">il-lu-gha-l-'a-ra-BIY-ya</span><span class="vocab-fr">la langue arabe</span></div>
+      <div class="vocab-row"><span class="vocab-ar">القُرْآن الكَريم</span><span class="vocab-phon">il-qur-ÂN il-ka-RÎM</span><span class="vocab-fr">le Saint Coran</span></div>
+      <div class="vocab-row"><span class="vocab-ar">العُلوم الإسْلامِيَّة</span><span class="vocab-phon">il-'u-LÛM il-is-LÂ-miy-ya</span><span class="vocab-fr">sciences islamiques</span></div>
+      <div class="vocab-row"><span class="vocab-ar">رَمَضان</span><span class="vocab-phon">ra-ma-DÂN</span><span class="vocab-fr">Ramadan</span></div>
+      <div class="vocab-row"><span class="vocab-ar">فَرِحَة</span><span class="vocab-phon">fa-RI-ha</span><span class="vocab-fr">joyeuse</span></div>
+    </div>
+  </div>
+
+  <div class="grammar">
+    <div class="grammar-label">💡 Règle clé — Le futur simple</div>
+    <p>Pour parler au futur, on ajoute <strong>سَـ</strong> (sa-) devant le verbe :</p>
+    <div class="formula">سَنَقوم بِالاخْتِبارات = Nous ferons les examens</div>
+    <p style="margin-top:8px">Le passé récent : <strong>اِسْتَيْقَظَت مُبَكِّراً</strong> (ista-yqa-zat mubak-kiran) = elle s'est réveillée tôt</p>
+  </div>
+
+  <div class="qr-section">
+    <div class="qr-level"><div class="level-dot green"></div><div class="level-label">Niveau facile 🟢</div></div>
+
+    <div class="qr-item green">
+      <div class="qr-q">مَن هي خَليمَة ؟ <span>— Qui est Khalima ?</span></div>
+      <div class="qr-ar">هِيَ طالِبَة. ذَهَبَت إلى المَدْرَسَة مَعَ أبيها</div>
+      <div class="qr-phon">hiya TÂ-li-ba. dha-ha-bat il-al-mad-RA-sa ma-'a a-BÎ-hâ</div>
+      <div class="qr-fr">Elle est étudiante. Elle est allée à l'école avec son père.</div>
+    </div>
+
+    <div class="qr-item green">
+      <div class="qr-q">مَاذا تَدْرُس خَليمَة ؟ <span>— Qu'étudie Khalima ?</span></div>
+      <div class="qr-ar">تَدْرُس اللُّغَة العَرَبِيَّة وَالقُرْآن الكَريم وَالعُلوم الإسْلامِيَّة</div>
+      <div class="qr-phon">tad-RUSU-l-lu-gha-l-'a-ra-BIY-ya wal-Qur-ÂN il-ka-RÎM wal-'u-LÛM il-is-LÂ-miy-ya</div>
+      <div class="qr-fr">Elle étudie l'arabe, le Coran et les sciences islamiques</div>
+    </div>
+
+    <div class="qr-level"><div class="level-dot yellow"></div><div class="level-label">Niveau moyen 🟡</div></div>
+
+    <div class="qr-item yellow">
+      <div class="qr-q">مَتى الدِّراسَة ؟ <span>— Quand ont lieu les cours ?</span></div>
+      <div class="qr-ar">الدِّراسَة يَوْم السَّبْت أوِ الأحَد مِن العاشِرَة إلى الواحِدَة وَالنِّصْف</div>
+      <div class="qr-phon">id-di-RÂ-sa yawm is-SABT aw il-A-had min il-'Â-shi-ra il-al-WÂ-hi-da wan-NISF</div>
+      <div class="qr-fr">Les cours ont lieu le samedi ou le dimanche de 10h à 13h30</div>
+    </div>
+
+    <div class="qr-item yellow">
+      <div class="qr-q">مَتى الاِخْتِبارات ؟ <span>— Quand ont lieu les examens ?</span></div>
+      <div class="qr-ar">سَنَقوم بِالاخْتِبارات في شَهْر رَمَضان قَبْل نِهايَة العام</div>
+      <div class="qr-phon">sa-na-QÛM bil-ikh-ti-bâ-RÂT fî sha-hr ra-ma-DÂN qab-la ni-HÂ-ya-til-'ÂM</div>
+      <div class="qr-fr">Nous ferons les examens en Ramadan avant la fin de l'année</div>
+    </div>
+
+    <div class="qr-level"><div class="level-dot red"></div><div class="level-label">Niveau avancé 🔴</div></div>
+
+    <div class="qr-item red">
+      <div class="qr-q">صِفي يَوْم خَليمَة <span>— Décris la journée de Khalima</span></div>
+      <div class="qr-ar">اِسْتَيْقَظَت خَليمَة مُبَكِّراً ثُمَّ ذَهَبَت إلى المَدْرَسَة بِالحافِلَة. دَخَلَت إلى المَدْرَسَة وَكانَ المُدير في مَكْتَبِه. عِنْدَما أنْهَيْنا رَجَعَت إلى البَيْت فَرِحَة</div>
+      <div class="qr-phon">is-tay-qa-zat kha-LÎ-ma mu-bak-ki-RAN thum-ma dha-ha-bat il-al-mad-RA-sa bil-HÂ-fi-la. da-kha-lat il-al-mad-RA-sa wa-kâ-na-l-mu-DÎR fî mak-ta-bih. 'in-da-mâ an-hay-NÂ ra-ja-'at il-al-BAYT fa-RI-ha</div>
+      <div class="qr-fr">Khalima s'est réveillée tôt puis est allée à l'école en bus. Elle entra et le directeur était dans son bureau. Quand nous avons fini, elle est rentrée à la maison joyeuse.</div>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <div class="test-label">🔁 Auto-test</div>
+    <div class="test-item">
+      <div class="test-q">1. Quelles matières sont enseignées ?<div class="test-a" id="t5a">اللُّغَة العَرَبِيَّة، القُرْآن، العُلوم الإسْلامِيَّة</div></div>
+      <button class="reveal-btn" onclick="reveal('t5a',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">2. Quand ont lieu les cours ?<div class="test-a" id="t5b">يَوْم السَّبْت أوِ الأحَد — samedi ou dimanche, 10h-13h30</div></div>
+      <button class="reveal-btn" onclick="reveal('t5b',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">3. Comment Khalima est-elle allée à l'école ?<div class="test-a" id="t5c">بِالحافِلَة — bil-HÂ-fi-la (en bus)</div></div>
+      <button class="reveal-btn" onclick="reveal('t5c',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">4. Comment était-elle en rentrant ?<div class="test-a" id="t5d">فَرِحَة — fa-RI-ha (joyeuse)</div></div>
+      <button class="reveal-btn" onclick="reveal('t5d',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">5. Quand ont lieu les examens ?<div class="test-a" id="t5e">في شَهْر رَمَضان — fî sha-hr ra-ma-DÂN (en Ramadan)</div></div>
+      <button class="reveal-btn" onclick="reveal('t5e',this)">Voir</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ FICHE 6 -->
+<div class="page" id="page5">
+  <div class="fiche-header">
+    <div>
+      <div class="fiche-num">Fiche 6 · p.93-94</div>
+      <div class="fiche-title-fr">Le travail</div>
+    </div>
+    <div class="fiche-title-ar">العَمَل</div>
+  </div>
+
+  <div class="scene">
+    <div class="scene-label">La scène à visualiser</div>
+    <p><strong>Khalima</strong> a fini ses études d'arabe au Centre Shatibi. Elle cherche du travail comme <strong>enseignante d'arabe</strong>. Elle a rendez-vous avec le directeur d'une école. Elle se présente : son père est <strong>commerçant</strong>, sa mère est <strong>médecin</strong>, son frère est <strong>charpentier</strong>, sa sœur est <strong>enseignante</strong>, son oncle est <strong>pilote</strong>. Le directeur demande ses points forts : <strong>honnêteté, patience, respect</strong>. Il n'a pas d'autres questions. Khalima le remercie.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card terracotta">
+      <div class="card-title" style="color:var(--terracotta)">💼 Les métiers</div>
+      <div class="vocab-header"><span>Arabe</span><span>Phonétique</span><span>Français</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مُدَرِّسَة</span><span class="vocab-phon">mu-dar-RI-sa</span><span class="vocab-fr">enseignante (f)</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مُدَرِّس</span><span class="vocab-phon">mu-dar-RIS</span><span class="vocab-fr">enseignant (m)</span></div>
+      <div class="vocab-row"><span class="vocab-ar">تاجِر</span><span class="vocab-phon">TÂ-jir</span><span class="vocab-fr">commerçant</span></div>
+      <div class="vocab-row"><span class="vocab-ar">طَبيبَة</span><span class="vocab-phon">ta-BÎ-ba</span><span class="vocab-fr">médecin (f)</span></div>
+      <div class="vocab-row"><span class="vocab-ar">نَجَّار</span><span class="vocab-phon">naj-JÂR</span><span class="vocab-fr">charpentier</span></div>
+      <div class="vocab-row"><span class="vocab-ar">طَيَّار</span><span class="vocab-phon">tay-YÂR</span><span class="vocab-fr">pilote</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مُهَنْدِس</span><span class="vocab-phon">mu-HAN-dis</span><span class="vocab-fr">ingénieur</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مُحامٍ</span><span class="vocab-phon">mu-HÂ-mi</span><span class="vocab-fr">avocat</span></div>
+    </div>
+    <div class="card purple">
+      <div class="card-title" style="color:var(--purple)">⭐ Qualités & Entretien</div>
+      <div class="vocab-header"><span>Arabe</span><span>Phonétique</span><span>Français</span></div>
+      <div class="vocab-row"><span class="vocab-ar">الأمانَة</span><span class="vocab-phon">il-a-MÂ-na</span><span class="vocab-fr">l'honnêteté</span></div>
+      <div class="vocab-row"><span class="vocab-ar">الصَّبْر</span><span class="vocab-phon">is-SABR</span><span class="vocab-fr">la patience</span></div>
+      <div class="vocab-row"><span class="vocab-ar">الاحْتِرام</span><span class="vocab-phon">il-ih-ti-RÂM</span><span class="vocab-fr">le respect</span></div>
+      <div class="vocab-row"><span class="vocab-ar">نِقاط القُوَّة</span><span class="vocab-phon">ni-QÂT il-QUW-wa</span><span class="vocab-fr">points forts</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مَهَنَة</span><span class="vocab-phon">ma-HA-na</span><span class="vocab-fr">métier / profession</span></div>
+      <div class="vocab-row"><span class="vocab-ar">مَوْعِد</span><span class="vocab-phon">MAW-'id</span><span class="vocab-fr">rendez-vous</span></div>
+      <div class="vocab-row"><span class="vocab-ar">قَدَّمي نَفْسَك</span><span class="vocab-phon">qad-di-mî NAF-sa-ki</span><span class="vocab-fr">présente-toi !</span></div>
+      <div class="vocab-row"><span class="vocab-ar">بِالتَّوْفيق</span><span class="vocab-phon">bit-taw-FÎQ</span><span class="vocab-fr">bonne chance !</span></div>
+    </div>
+  </div>
+
+  <div class="grammar">
+    <div class="grammar-label">💡 Règle clé — Se présenter et présenter sa famille</div>
+    <p>Structure pour parler des métiers de sa famille :</p>
+    <div class="formula">أبي تاجِر · أُمِّي طَبيبَة · أخي نَجَّار</div>
+    <p style="margin-top:8px">Pas de verbe "être" au présent en arabe ! On dit juste <strong>sujet + métier</strong>. Ex : أبي تاجِر = mon père [est] commerçant.</p>
+  </div>
+
+  <div class="qr-section">
+    <div class="qr-level"><div class="level-dot green"></div><div class="level-label">Niveau facile 🟢</div></div>
+
+    <div class="qr-item green">
+      <div class="qr-q">ماذا تُريد خَليمَة ؟ <span>— Que veut Khalima ?</span></div>
+      <div class="qr-ar">تُريد أنْ تَكون مُدَرِّسَة في مَدْرَسَتِكُم</div>
+      <div class="qr-phon">tu-RÎ-du an ta-KÛN mu-dar-RI-sa fî mad-ra-sa-ti-KUM</div>
+      <div class="qr-fr">Elle veut être enseignante dans votre école</div>
+    </div>
+
+    <div class="qr-item green">
+      <div class="qr-q">مَن هو أبوها ؟ <span>— Qui est son père ?</span></div>
+      <div class="qr-ar">أبي تاجِر في السُّوق، يَبيع الطَّعامَ وَالمَلابِس</div>
+      <div class="qr-phon">a-BÎ TÂ-jir fis-SÛQ, ya-BÎ'-ut-TA-'â-ma wal-ma-LÂ-bis</div>
+      <div class="qr-fr">Mon père est commerçant au marché, il vend de la nourriture et des vêtements</div>
+    </div>
+
+    <div class="qr-level"><div class="level-dot yellow"></div><div class="level-label">Niveau moyen 🟡</div></div>
+
+    <div class="qr-item yellow">
+      <div class="qr-q">صِفي أفْراد أُسْرَتِك <span>— Décris les membres de ta famille</span></div>
+      <div class="qr-ar">أبي تاجِر. أُمِّي طَبيبَة في المُسْتَشْفى. أخي نَجَّار. أُخْتي مُعَلِّمَة. عَمِّي طَيَّار</div>
+      <div class="qr-phon">a-BÎ TÂ-jir. um-MÎ ta-BÎ-ba fil-mus-tash-FÂ. a-KHÎ naj-JÂR. ukh-TÎ mu-'al-LI-ma. 'am-MÎ tay-YÂR</div>
+      <div class="qr-fr">Mon père est commerçant. Ma mère est médecin à l'hôpital. Mon frère est charpentier. Ma sœur est enseignante. Mon oncle est pilote.</div>
+    </div>
+
+    <div class="qr-item yellow">
+      <div class="qr-q">ما هِيَ نِقاط قُوَّتِك ؟ <span>— Quels sont tes points forts ?</span></div>
+      <div class="qr-ar">الأمانَة، الصَّبْر، الاحْتِرام</div>
+      <div class="qr-phon">il-a-MÂ-na, is-SABR, il-ih-ti-RÂM</div>
+      <div class="qr-fr">L'honnêteté, la patience, le respect</div>
+    </div>
+
+    <div class="qr-level"><div class="level-dot red"></div><div class="level-label">Niveau avancé 🔴</div></div>
+
+    <div class="qr-item red">
+      <div class="qr-q">قَدِّمي نَفْسَك <span>— Présente-toi</span></div>
+      <div class="qr-ar">اِسْمي خَليمَة. تَخَرَّجْت مِن قِسْم اللِّسان العَرَبي بِمَرْكَز الشَّاطِبي. أُريد أنْ أكون مُدَرِّسَة. نِقاط قُوَّتي: الأمانَة، الصَّبْر، الاحْتِرام</div>
+      <div class="qr-phon">is-mî kha-LÎ-ma. ta-khar-RAJT min qism il-li-SÂN il-'a-ra-BI bi-mar-kaz ish-shâ-TI-bî. u-RÎ-du an a-KÛN mu-dar-RI-sa. ni-QÂT quw-wa-tî: il-a-MÂ-na, is-SABR, il-ih-ti-RÂM</div>
+      <div class="qr-fr">Je m'appelle Khalima. J'ai obtenu mon diplôme en langue arabe au centre Shatibi. Je veux être enseignante. Mes points forts : l'honnêteté, la patience, le respect.</div>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <div class="test-label">🔁 Auto-test</div>
+    <div class="test-item">
+      <div class="test-q">1. Quel est le métier de la mère de Khalima ?<div class="test-a" id="t6a">طَبيبَة — ta-BÎ-ba (médecin)</div></div>
+      <button class="reveal-btn" onclick="reveal('t6a',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">2. Comment dit-on "enseignante" ?<div class="test-a" id="t6b">مُدَرِّسَة — mu-dar-RI-sa</div></div>
+      <button class="reveal-btn" onclick="reveal('t6b',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">3. Quels sont les 3 points forts de Khalima ?<div class="test-a" id="t6c">الأمانَة، الصَّبْر، الاحْتِرام (honnêteté, patience, respect)</div></div>
+      <button class="reveal-btn" onclick="reveal('t6c',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">4. Comment dit-on "bonne chance" en arabe ?<div class="test-a" id="t6d">بِالتَّوْفيق — bit-taw-FÎQ</div></div>
+      <button class="reveal-btn" onclick="reveal('t6d',this)">Voir</button>
+    </div>
+    <div class="test-item">
+      <div class="test-q">5. Quel est le métier du frère de Khalima ?<div class="test-a" id="t6e">نَجَّار — naj-JÂR (charpentier)</div></div>
+      <button class="reveal-btn" onclick="reveal('t6e',this)">Voir</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showPage(idx) {
+    document.querySelectorAll('.page').forEach((p,i) => p.classList.toggle('active', i===idx));
+    document.querySelectorAll('.nav-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
+    window.scrollTo(0,0);
+  }
+  function reveal(id, btn) {
+    const el = document.getElementById(id);
+    el.classList.toggle('show');
+    btn.textContent = el.classList.contains('show') ? 'Cacher' : 'Voir';
+  }
+</script>
+</body>
+</html>
